@@ -27,7 +27,7 @@ if ( !class_exists('\Cmb2MultidatesPicker\Fields\MultidatesPicker') ) {
 		public function adminEnqueueScripts( $pagearg){
 			$asset_path = plugins_url( '', dirname(__FILE__)  );
 			
-			wp_register_style('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css');
+			wp_register_style('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css');
 			wp_enqueue_style( 'jquery-ui' );   
 			
 			wp_register_style('multidatespicker', $asset_path . '/assets/css/cmb2-multidates-picker.css');
@@ -46,9 +46,9 @@ if ( !class_exists('\Cmb2MultidatesPicker\Fields\MultidatesPicker') ) {
 				$multidatesParams = wp_parse_args($field->args['multidates_params'], $defaultArgs);
 			}
 			
-			$fieldName = 'multidatespicker'.$field->args['id'];
+			$fieldName = 'multidatespicker_'.$field->args['id'];
 			echo '<div id="'.$fieldName.'"></div>';
-			$valueStr = is_array($escaped_value) && count($escaped_value > 0) ? implode(", ",$escaped_value) : '' ;
+			$valueStr = ( is_array($escaped_value) && count($escaped_value) > 0 ) ? implode(", ",$escaped_value) : '' ;
 			echo $field_type_object->input(array('type' => 'text','class'=>'hidden','value'=>$valueStr));
 			$datesJs = wp_json_encode($escaped_value);
 			$multidatesParamsJs = wp_json_encode($multidatesParams);
@@ -59,7 +59,7 @@ if ( !class_exists('\Cmb2MultidatesPicker\Fields\MultidatesPicker') ) {
 					};
 					var pickerParams = <?php echo $multidatesParamsJs; ?>;
 					jQuery.extend(params, pickerParams);
-					<?php if ( is_array($escaped_value) && count($escaped_value > 0) ) { ?>
+					<?php if ( is_array($escaped_value) && count($escaped_value) > 0 ) { ?>
 						var dates = <?php echo $datesJs; ?>;
 						params.addDates=dates;
 					<?php } ?>
